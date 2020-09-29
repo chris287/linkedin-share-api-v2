@@ -3,27 +3,28 @@ import '../../public/stylesheets/style.css'
 import HelpOutlineIcon from "@material-ui/icons/HelpOutline";
 import ReplayRoundedIcon from "@material-ui/icons/ReplayRounded";
 import AnnouncementOutlinedIcon from "@material-ui/icons/AnnouncementOutlined";
-import {
-    Button,
-    TextField,
-    Grid,
-    Paper,
-    AppBar,
-    Typography,
-    Toolbar,
-    Link,
-    } from "@material-ui/core";
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogActions from '@material-ui/core/DialogActions';
+import Button from '@material-ui/core/Button';
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import TextField from '@material-ui/core/TextField';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from '@material-ui/core/Dialog';
+
 import domtoimage from 'dom-to-image'
 
 export default class Home extends React.Component{
     constructor(props){
         super(props);
         this.state = {
+            openDialog: false,
             imageData: "",
             login: false,
             logInCred: "mocrosoftdev",
             uploadUrl: '',
-            asset: ''
+            asset: '',
+            description:''
         }
     }
     convertWinnerTableToImage = () =>{
@@ -35,8 +36,6 @@ export default class Home extends React.Component{
                 b64Img = dataUrl;
                 var img = new Image();
                 img.src = dataUrl;
-                // const blob = self.b64toBlob(dataUrl.split(',')[1],'text/plain');
-                // console.log(blob);
                 return dataUrl;
             })
             .then(dataUrl=>{
@@ -54,22 +53,39 @@ export default class Home extends React.Component{
                     console.log(registerData,"register Data")
                     return {'uploadUrl':registerData.value.uploadMechanism["com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"].uploadUrl,'asset':registerData.value.asset}
                 })
-                // .then(uploadData =>{
-                //     fetch('http://localhost:3000/tni/api',{
-                //         method: 'PUT',
-                //         headers: {
-                //             'Content-Type': 'application/json'
-                //         },
+                .then(uploadData =>{
+                    fetch('http://localhost:3000/tni/api',{
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
 
-                //         body: JSON.stringify({
-                //             'url':dataUrl,
-                //             'uploadData':uploadData
-                //         })
-                //     })
-                //     .then(uploadDataResponse => {
-                //         console.log(uploadDataResponse,"upload Data response")
-                //     })
-                // })
+                        body: JSON.stringify({
+                            'url':dataUrl,
+                            'uploadData':uploadData
+                        })
+                    })
+                    .then(uploadDataResponse => {
+                        return uploadDataResponse.json()
+                    })
+                    .then(imageLink => {
+                        if(imageLink){
+                            fetch('http://localhost:3000/tni/api/post',{
+                                method:'POST',
+                                headers: {
+                                    'Content-Type':'application/json'
+                                },
+                                body: JSON.stringify({
+                                    'assetData':uploadData,
+                                    'description': self.state.description
+                                })
+                            })
+                            .then(postResponse => (postResponse.json()))
+                            .then(postFinalResponse => {console.log(postFinalResponse);self.setState(this.handleDialogOpen);window.alert("Image uploaded Successfully! You can check your activity in your profile.")})
+                            .catch(erro => console.log(erro))
+                        }
+                    })
+                })
                 .catch(error => {console.log(error)})
             })
             .catch(function (error) {
@@ -77,6 +93,17 @@ export default class Home extends React.Component{
             });
     }
 
+    handleChange = (event) =>{
+        this.setState({
+            description: event.target.value
+        })
+    }
+
+    handleDialogOpen = () =>{
+        this.setState({
+            openDialog: !this.state.openDialog
+        })
+    }
    render(){
         const menuIconStyle = { fontSize: 32 };
         return(
@@ -128,7 +155,7 @@ export default class Home extends React.Component{
                                 <h3>Help</h3>
                                 </div>
                             </li>
-                            <li tabIndex={0} onClick={this.convertWinnerTableToImage}>
+                            <li tabIndex={0} >
                                 <div className="tniMenuItem" id="help">
                                     <AnnouncementOutlinedIcon style={menuIconStyle} />
                                     <h3>Announcements</h3>
@@ -208,10 +235,10 @@ export default class Home extends React.Component{
                                                 <img
                                                     src={"https://thumbs.dreamstime.com/b/avatar-girl-short-hair-avatar-face-single-icon-cartoon-style-rater-bitmap-symbol-stock-illustration-web-91848067.jpg"}
                                                     style={{
-                                                    height: "35%",
+                                                    height: "26%",
                                                     width: "35%",
                                                     position: "absolute",
-                                                    top: "23%",
+                                                    top: "15%",
                                                     left: "33%",
                                                     borderRadius: "100px"
                                                     }}
@@ -275,10 +302,10 @@ export default class Home extends React.Component{
                                                 <img
                                                     src={"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQuEoremt7NhDw5dXxwVT97Kk6lLBdk21r6KQ&usqp=CAU"}
                                                     style={{
-                                                    height: "35%",
+                                                    height: "26%",
                                                     width: "35%",
                                                     position: "absolute",
-                                                    top: "23%",
+                                                    top: "15%",
                                                     left: "33%",
                                                     borderRadius: "100px"
                                                     }}
@@ -341,10 +368,10 @@ export default class Home extends React.Component{
                                                 <img
                                                     src={"https://thumbs.dreamstime.com/b/young-man-avatar-character-male-face-portrait-cartoon-person-vector-illustration-adult-design-human-people-attractive-casual-guy-100786465.jpg"}
                                                     style={{
-                                                    height: "35%",
+                                                    height: "26%",
                                                     width: "35%",
                                                     position: "absolute",
-                                                    top: "23%",
+                                                    top: "15%",
                                                     left: "33%",
                                                     borderRadius: "100px"
                                                     }}
@@ -369,7 +396,39 @@ export default class Home extends React.Component{
                                     </div>
                                 </div>
                             </div>
+                        {(this.state.openDialog)?
+                            <Dialog open={this.state.openDialog} fullWidth={true}>
+                                <DialogTitle>Share Winner Table</DialogTitle>
+                                    <DialogContent>
+                                        <DialogContentText>
+                                            Enter the description below.
+                                        </DialogContentText>
+                                        <TextField
+                                            autoFocus
+                                            margin="dense"
+                                            id="name"
+                                            label="Description"
+                                            fullWidth
+                                            value={this.state.description}
+                                            onChange={this.handleChange}
+                                        />
+                                    </DialogContent>
+                                    <DialogActions>
+                                    <Button onClick={this.handleDialogOpen} color="primary" >
+                                        Cancel
+                                    </Button>
+                                    <Button onClick={this.convertWinnerTableToImage} color="primary" disabled={this.state.description===""}>
+                                        Post
+                                    </Button>
+                                    </DialogActions>
+                            </Dialog>:""
+                        }
+                        <div style={{width:"10%", position:"absolute", right:"10%", bottom:"0"}}>
+                            <Button onClick={this.handleDialogOpen}><b style={{fontSize:"large"}}>Share &nbsp;&nbsp;</b><LinkedInIcon fontSize="large"/></Button>
                         </div>
+                         
+                        </div>
+                       
                         <div className="tniSidebar">
                             <div className="tniMyself">
                                 <img

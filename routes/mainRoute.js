@@ -17,4 +17,9 @@ router.put('/',async function(req,resp){
     resp.send(putData)
 })
 
+router.post('/post',async function(req,resp){
+    let postData = await methodObject.createPost(req.body);
+    resp.send(postData);
+})
+
 module.exports = router;

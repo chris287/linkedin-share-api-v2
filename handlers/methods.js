@@ -1,7 +1,6 @@
 require('isomorphic-fetch')
 require('dotenv').config()
 var fs = require('fs');
-var FormData = require('form-data');
 
 var methods = {
     getUploadStatus: function(upload){
@@ -37,7 +36,7 @@ var methods = {
             },
             body:JSON.stringify({
                 "registerUploadRequest":{
-                   "owner":"urn:li:person:rfMZBdLqzf",
+                   "owner":"urn:li:person:Jy5cvnv0Wz",
                    "recipes":[
                       "urn:li:digitalmediaRecipe:feedshare-image"
                    ],
@@ -69,32 +68,38 @@ var methods = {
         return data;
     },
 
-    uploadImage: function(upload){
-        var dataUrl = upload.url;
-        var uploadData = upload.uploadData;
-        var file = decodeURIComponent(uploadData)
-        var form = new FormData();
-        form.append('image',file)
+    uploadImage: async function(upload){
+        var uploadUrl = upload.uploadData.uploadUrl
+        var uploadData = upload.url
         
+        try{
+            var myHeaders = new Headers();
+            fs.writeFile(process.cwd()+'/handlers/image.png', uploadData.split(';base64,').pop(), {encoding: 'base64'}, function(err) {
+                console.log('File is being uploaded....');
+            });
+            const readFile = await fs.promises.readFile(process.cwd()+'/handlers/image.png');
+
+            myHeaders.append("Content-Type", "mu");
+            myHeaders.append("Authorization",`Bearer ${process.env.TOKEN}`);
+            myHeaders.append("Cookie", "bcookie=\"v=2&06fb2c4a-b88d-4fcf-8de3-adb4b50e14bd\"; lissc=1");
+
+            var requestOptions = {
+                method: 'PUT',
+                headers: myHeaders,
+                body: readFile,
+                redirect: 'follow'
+              };
+
+              fetch(uploadUrl, requestOptions)
+                .then(response => {
+                    
+                    return response.text()
+                })
+                .catch(error => console.log('error', error));
+        }catch(er){
+            console.log("Error message:", er)
+        }
         
-        // UPLOAD IMAGE 
-                    fetch(uploadData.uploadUrl,{
-                        method: 'POST',
-                        headers:{
-                            'Content-Type':'application/binary',
-                            'Authorization':`Bearer ${process.env.TOKEN}`
-                        },
-                        body: form
-                    })
-                    .then(uploadResponse =>{
-                        console.log("UPLOAD RESPONSE")
-                        return uploadResponse
-                    })
-                    .then(location => {
-                        console.log(location,"location")
-                        return location
-                    })
-                    .catch(error =>{console.log(error)})
         return true;
     },
 
@@ -105,20 +110,52 @@ var methods = {
         .catch(er => console.log(er))
         Promise.resolve(data);
         return data;
+    },
+
+    createPost:function(upload){
+        var asset = upload.assetData.asset;
+        var description = upload.description;
+        var data = fetch('https://api.linkedin.com/v2/ugcPosts',{
+            method:'POST',
+            headers:{
+                'Authorization':`Bearer ${process.env.TOKEN}`,
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                    "author": "urn:li:person:Jy5cvnv0Wz",
+                    "lifecycleState": "PUBLISHED",
+                    "specificContent": {
+                        "com.linkedin.ugc.ShareContent": {
+                            "shareCommentary": {
+                                "text": description
+                            },
+                            "shareMediaCategory": "IMAGE",
+                            "media": [
+                                {
+                                    "status": "READY",
+                                    "description": {
+                                        "text": "LinkedIn API v2 Testing share"
+                                    },
+                                    "media": asset,
+                                    "title": {
+                                        "text": "LinkedIn API v2 Testing share"
+                                    }
+                                }
+                            ]
+                        }
+                    },
+                    "visibility": {
+                        "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
+                    }
+            })
+        })
+        .then(response =>(response.json()))
+        .then(responseData => (responseData))
+        .catch(er => console.log(er))
+        
+        return Promise.resolve(data);
     }
+
+    
 }
-
-function DataURIToBlob(dataURI) {
-    const splitDataURI = dataURI.split(',')
-    const byteString = splitDataURI[0].indexOf('base64') >= 0 ? atob(splitDataURI[1]) : decodeURI(splitDataURI[1])
-    const mimeString = splitDataURI[0].split(':')[1].split(';')[0]
-
-    const ia = new Uint8Array(byteString.length)
-    for (let i = 0; i < byteString.length; i++)
-        ia[i] = byteString.charCodeAt(i)
-
-    return new Blob([ia], { type: mimeString })
-  }
-
-
 module.exports = methods
