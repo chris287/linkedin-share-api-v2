@@ -93,8 +93,11 @@ var methods = {
 
             fetch(uploadUrl, requestOptions)
                 .then(response => {
-                    console.log(response.text(), 'textAreaaa')
-                    return response.text()
+                    if (response.text()) {
+                        return true;
+                    } else {
+                        return false
+                    }
                 })
                 .catch(error => console.log('error', error));
         } catch (er) {
