@@ -70,6 +70,7 @@ var methods = {
         uploadImage: async function(upload) {
                 var uploadUrl = upload.uploadUrl;
                 var imageData = upload.imageData;
+                console.log("UPLOAD IMAGE CALLED")
                 try {
                     var headers = new Headers();
                     fs.writeFile('./public/images/image.png', imageData.split(';base64,').pop(), { encoding: 'base64' }, function(err) {
