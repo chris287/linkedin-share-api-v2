@@ -70,7 +70,6 @@ var methods = {
         uploadImage: async function(upload) {
                 var uploadUrl = upload.uploadUrl;
                 var imageData = upload.imageData;
-                console.log(upload,"body")
                 try {
                     var headers = new Headers();
                     fs.writeFile('/home/ubuntu/webpack-linkedin/public/images/image.png', imageData.split(';base64,').pop(), { encoding: 'base64' }, function(err) {
@@ -78,20 +77,21 @@ var methods = {
                             console.log(`Image conversion error ${err}`)
                         }
                     });
-console.log(process.cwd())
-                    const readFile = await fs.promises.readFile('/home/ubuntu/webpack-linkedin/public/images/image.png')
-console.log(readFile.toString(),"file data")  
-                    headers.append("Content-Type","mu")
-                    headers.append("Authorization",`Bearer ${process.env.TOKEN}`)
-                    headers.append("Cookie", "bcookie=\"v=2&06fb2c4a-b88d-4fcf-8de3-adb4b50e14bd\"; lissc=1");
 
+                    const readFile = await fs.promises.readFile('/home/ubuntu/webpack-linkedin/public/images/image.png')
+  
+                    headers.append("Content-Type","mu")
+                    headers.append("Authorization",`Bearer ${process.env.TOKEN}`);
+                    console.log("1")
+                    headers.append("Cookie", "bcookie=\"v=2&06fb2c4a-b88d-4fcf-8de3-adb4b50e14bd\"; lissc=1");
+console.log(2)
                     var requestOptions = {
                         method: 'PUT',
                         headers: headers,
                         body: readFile,
                         redirect: 'follow'
                     };
-
+console.group(3)
                     return fetch(uploadUrl,requestOptions)
                     .then(function(uploadResponse){
                         console.log(uploadResponse.size,uploadResponse.timeout,"Size and timeout")
