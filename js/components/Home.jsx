@@ -44,7 +44,7 @@ export default class Home extends React.Component{
             })
             .then(dataUrl=>{
                 // REGISTER IMAGE ASSET
-                fetch('https://lambdazen.roshal.xyz/tni/api',{
+                fetch('http://localhost:3000/tni/api',{
                     method: 'POST',
                     body: JSON.stringify({
                         'key':'value'
@@ -54,15 +54,15 @@ export default class Home extends React.Component{
                     return registerResponse.json();
                 })
                 .then(registerData =>{
+                    console.log(registerData,"register Data")
                     return {'uploadUrl':registerData.value.uploadMechanism["com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"].uploadUrl,'asset':registerData.value.asset}
                 })
                 .then(uploadData =>{
-                    fetch('https://lambdazen.roshal.xyz/tni/api',{
+                    fetch('http://localhost:3000/tni/api',{
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
                         },
-
                         body: JSON.stringify({
                             'url':dataUrl,
                             'uploadData':uploadData
@@ -73,7 +73,7 @@ export default class Home extends React.Component{
                     })
                     .then(imageLink => {
                         if(imageLink){
-                            fetch('https://lambdazen.roshal.xyz/tni/api/post',{
+                            fetch('http://localhost:3000/tni/api/post',{
                                 method:'POST',
                                 headers: {
                                     'Content-Type':'application/json'
@@ -84,10 +84,7 @@ export default class Home extends React.Component{
                                 })
                             })
                             .then(postResponse => (postResponse.json()))
-                            .then(postFinalResponse => {
-                                self.setState(this.handleDialogOpen);
-                                window.alert("Image uploaded Successfully! You can check your activity in your profile.")
-                            })
+                            .then(postFinalResponse => {console.log(postFinalResponse);self.setState(this.handleDialogOpen);window.alert("Image uploaded Successfully! You can check your activity in your profile.")})
                             .catch(erro => console.log(erro))
                         }
                     })
@@ -98,7 +95,7 @@ export default class Home extends React.Component{
                 console.error('Image conversion error! ', error);
             });
     }
-
+    
     handleChange = (event) =>{
         this.setState({
             description: event.target.value
