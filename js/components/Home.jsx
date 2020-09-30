@@ -45,7 +45,7 @@ export default class Home extends React.Component{
             })
             .then(dataUrl=>{
                 // REGISTER IMAGE ASSET
-                fetch('http://lambdazen.roshal.xyz/tni/api',{
+                fetch('https://lambdazen.roshal.xyz/tni/api',{
                     method: 'POST',
                     body: JSON.stringify({
                         'key':'value'
@@ -59,7 +59,7 @@ export default class Home extends React.Component{
                     return {'uploadUrl':registerData.value.uploadMechanism["com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"].uploadUrl,'asset':registerData.value.asset}
                 })
                 .then(uploadData =>{
-                    fetch('http://lambdazen.roshal.xyz/tni/api',{
+                    fetch('https://lambdazen.roshal.xyz/tni/api',{
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
@@ -74,7 +74,7 @@ export default class Home extends React.Component{
                     })
                     .then(imageLink => {
                         if(imageLink){
-                            fetch('http://lambdazen.roshal.xyz/tni/api/post',{
+                            fetch('https://lambdazen.roshal.xyz/tni/api/post',{
                                 method:'POST',
                                 headers: {
                                     'Content-Type':'application/json'
