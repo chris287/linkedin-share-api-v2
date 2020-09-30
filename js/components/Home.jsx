@@ -84,7 +84,7 @@ export default class Home extends React.Component{
                                     'description': self.state.description
                                 })
                             })
-                            .then(postResponse => (postResponse.json()))
+                            .then(postResponse => (postResponse))
                             .then(postFinalResponse => {
                                 self.setState({alertMessage:"Posted successfully! Please check account activity."});
                                 self.handleDialogOpen()
