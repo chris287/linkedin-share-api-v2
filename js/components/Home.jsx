@@ -74,7 +74,7 @@ export default class Home extends React.Component{
                     })
                     .then(imageLink => {
                         if(imageLink){
-                            fetch('https://lambdazen.roshal.xyz/tni/api/post',{
+                            fetch('https://lambdazen.roshal.xyz/upload',{
                                 method:'POST',
                                 headers: {
                                     'Content-Type':'application/json'
