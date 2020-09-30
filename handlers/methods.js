@@ -93,6 +93,7 @@ var methods = {
 
             fetch(uploadUrl, requestOptions)
                 .then(response => {
+                    console.log(response.text(), 'text')
                     return response.text()
                 })
                 .catch(error => console.log('error', error));
