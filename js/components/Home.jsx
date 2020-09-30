@@ -54,7 +54,6 @@ export default class Home extends React.Component{
                     return registerResponse.json();
                 })
                 .then(registerData =>{
-                    console.log(registerData,"register Data")
                     return {'uploadUrl':registerData.value.uploadMechanism["com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"].uploadUrl,'asset':registerData.value.asset}
                 })
                 .then(uploadData =>{
@@ -85,7 +84,10 @@ export default class Home extends React.Component{
                                 })
                             })
                             .then(postResponse => (postResponse.json()))
-                            .then(postFinalResponse => {console.log(postFinalResponse);self.setState(this.handleDialogOpen);window.alert("Image uploaded Successfully! You can check your activity in your profile.")})
+                            .then(postFinalResponse => {
+                                self.setState(this.handleDialogOpen);
+                                window.alert("Image uploaded Successfully! You can check your activity in your profile.")
+                            })
                             .catch(erro => console.log(erro))
                         }
                     })
