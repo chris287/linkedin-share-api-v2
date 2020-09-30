@@ -149,7 +149,10 @@ var methods = {
                     }
                 })
             })
-            .then(response => (response.json()))
+            .then(response => {
+                console.log(response, 'response1')
+                response.json()
+            })
             .then(responseData => (responseData))
             .catch(er => console.log(er))
 
