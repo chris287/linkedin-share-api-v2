@@ -69,7 +69,7 @@ var methods = {
     uploadImage: async function(upload) {
         var uploadUrl = upload.uploadData.uploadUrl
         var uploadData = upload.url
-
+        console.log(uploadUrl, "upload url")
         try {
             var myHeaders = new Headers();
             fs.writeFile(__dirname + '/image.png', uploadData.split(';base64,').pop(), { encoding: 'base64' }, function(err) {
@@ -93,11 +93,10 @@ var methods = {
 
             fetch(uploadUrl, requestOptions)
                 .then(response => {
-                    if (response.text()) {
-                        return true;
-                    } else {
-                        return false
-                    }
+                    return response.text()
+                })
+                .then(uploadResponse => {
+                    console.log(uploadResponse, "UPLOAD RESPONSE")
                 })
                 .catch(error => console.log('error', error));
         } catch (er) {
@@ -119,7 +118,6 @@ var methods = {
     createPost: function(upload) {
         var asset = upload.assetData.asset;
         var description = upload.description;
-        console.log(asset, description, "DESC")
         var data = fetch('https://api.linkedin.com/v2/ugcPosts', {
                 method: 'POST',
                 headers: {
