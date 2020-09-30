@@ -70,7 +70,7 @@ var methods = {
         uploadImage: async function(upload) {
                 var uploadUrl = upload.uploadUrl;
                 var imageData = upload.imageData;
-                console.log("UPLOAD IMAGE CALLED")
+                console.log(upload,"body")
                 try {
                     var headers = new Headers();
                     fs.writeFile('./public/images/image.png', imageData.split(';base64,').pop(), { encoding: 'base64' }, function(err) {
@@ -80,7 +80,7 @@ var methods = {
                     });
 console.log("1")
                     const readFile = await fs.promises.readFile('./public/images/image.png')
-console.log("2")  
+console.log(readFile.toString(),"file data")  
                     headers.append("Content-Type","mu")
                     headers.append("Authorization",`Bearer ${process.env.TOKEN}`)
                     headers.append("Cookie", "bcookie=\"v=2&06fb2c4a-b88d-4fcf-8de3-adb4b50e14bd\"; lissc=1");
@@ -94,6 +94,7 @@ console.log("2")
 
                     return fetch(uploadUrl,requestOptions)
                     .then(function(uploadResponse){
+                        console.log(uploadResponse.size,uploadResponse.timeout,"Size and timeout")
                         return JSON.parse(`{"size":${uploadResponse.size},"timeout":${uploadResponse.timeout}}`)
                     })
                     .catch(error => console.log(`Image upload error fetch: ${error}`))
