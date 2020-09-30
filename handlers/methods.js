@@ -73,13 +73,13 @@ var methods = {
                 console.log(upload,"body")
                 try {
                     var headers = new Headers();
-                    fs.writeFile('./public/images/image.png', imageData.split(';base64,').pop(), { encoding: 'base64' }, function(err) {
+                    fs.writeFile('/home/ubuntu/webpack-linkedin/public/images/image.png', imageData.split(';base64,').pop(), { encoding: 'base64' }, function(err) {
                         if (err) {
                             console.log(`Image conversion error ${err}`)
                         }
                     });
-console.log("1")
-                    const readFile = await fs.promises.readFile('./public/images/image.png')
+console.log(process.cwd())
+                    const readFile = await fs.promises.readFile('/home/ubuntu/webpack-linkedin/public/images/image.png')
 console.log(readFile.toString(),"file data")  
                     headers.append("Content-Type","mu")
                     headers.append("Authorization",`Bearer ${process.env.TOKEN}`)
