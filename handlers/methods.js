@@ -96,6 +96,7 @@ var methods = {
                     .then(function(uploadResponse){
                         return JSON.parse(`{"size":${uploadResponse.size},"timeout":${uploadResponse.timeout}}`)
                     })
+                    .catch(error => console.log(`Image upload error fetch: ${error}`))
                 } catch (error) {
                     console.log(`Image upload error: ${error}`)
                 }
