@@ -72,7 +72,6 @@ var methods = {
 
         try {
             var myHeaders = new Headers();
-            console.log(__dirname)
             fs.writeFile(__dirname + '/image.png', uploadData.split(';base64,').pop(), { encoding: 'base64' }, function(err) {
                 if (err) {
                     console.log("Error: ", err)
@@ -80,8 +79,8 @@ var methods = {
                     console.log('File is being uploaded....');
                 }
             });
-            const readFile = await fs.promises.readFile(process.cwd() + '/handlers/image.png');
-
+            const readFile = await fs.promises.readFile(__dirname + '/image.png');
+            console.log(process.cwd(), __dirname + "/image.png")
             myHeaders.append("Content-Type", "mu");
             myHeaders.append("Authorization", `Bearer ${process.env.TOKEN}`);
             myHeaders.append("Cookie", "bcookie=\"v=2&06fb2c4a-b88d-4fcf-8de3-adb4b50e14bd\"; lissc=1");
