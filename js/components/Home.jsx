@@ -9,7 +9,7 @@ import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import TextField from '@material-ui/core/TextField';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
-
+import Snackbar from '@material-ui/core/Snackbar';
 import domtoimage from 'dom-to-image'
 
 import SideBar from './SideBar';
@@ -28,7 +28,8 @@ export default class Home extends React.Component{
             logInCred: "mocrosoftdev",
             uploadUrl: '',
             asset: '',
-            description:''
+            description:'',
+            alertMessage: ''
         }
     }
     convertWinnerTableToImage = () =>{
@@ -44,7 +45,7 @@ export default class Home extends React.Component{
             })
             .then(dataUrl=>{
                 // REGISTER IMAGE ASSET
-                fetch('https://lambdazen.roshal.xyz/tni/api',{
+                fetch('http://localhost:3000/tni/api',{
                     method: 'POST',
                     body: JSON.stringify({
                         'key':'value'
@@ -58,7 +59,7 @@ export default class Home extends React.Component{
                     return {'uploadUrl':registerData.value.uploadMechanism["com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"].uploadUrl,'asset':registerData.value.asset}
                 })
                 .then(uploadData =>{
-                    fetch('https://lambdazen.roshal.xyz/tni/api',{
+                    fetch('http://localhost:3000/tni/api',{
                         method: 'PUT',
                         headers: {
                             'Content-Type': 'application/json'
@@ -73,7 +74,7 @@ export default class Home extends React.Component{
                     })
                     .then(imageLink => {
                         if(imageLink){
-                            fetch('https://lambdazen.roshal.xyz/tni/api/post',{
+                            fetch('http://localhost:3000/tni/api/post',{
                                 method:'POST',
                                 headers: {
                                     'Content-Type':'application/json'
@@ -84,7 +85,10 @@ export default class Home extends React.Component{
                                 })
                             })
                             .then(postResponse => (postResponse.json()))
-                            .then(postFinalResponse => {console.log(postFinalResponse);self.setState(this.handleDialogOpen);window.alert("Image uploaded Successfully! You can check your activity in your profile.")})
+                            .then(postFinalResponse => {
+                                self.setState({alertMessage:"Posted successfully! Please check account activity."});
+                                self.handleDialogOpen()
+                            })
                             .catch(erro => console.log(erro))
                         }
                     })
@@ -108,6 +112,10 @@ export default class Home extends React.Component{
         })
     }
 
+    handleSnackBar = () =>{
+        this.setState({alertMessage:""})
+    }
+
    render(){
         return(
             <React.Fragment>
@@ -116,6 +124,7 @@ export default class Home extends React.Component{
                     <div className="threeColsContainer">
                         <Menu/>
                         <div className="tniMain">
+                        <Snackbar anchorOrigin={{vertical:'top', horizontal:'center'}} onClose={this.handleSnackBar} open={this.state.alertMessage!=""} message={this.state.alertMessage} key={"alert1a"} autoHideDuration={3500}/>
                             <div
                                 className="winnerContainer"
                                 id="winnerTable"

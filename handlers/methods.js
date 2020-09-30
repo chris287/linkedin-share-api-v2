@@ -74,7 +74,7 @@ var methods = {
             var myHeaders = new Headers();
             fs.writeFile(__dirname + '/image.png', uploadData.split(';base64,').pop(), { encoding: 'base64' }, function(err) {
                 if (err) {
-                    console.log("Error: ", err)
+                    console.log("File upload error: ", err)
                 } else {
                     console.log('File is being uploaded....');
                 }
