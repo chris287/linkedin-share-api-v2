@@ -80,7 +80,6 @@ var methods = {
                 }
             });
             const readFile = await fs.promises.readFile(__dirname + '/image.png');
-            console.log(process.cwd(), __dirname + "/image.png")
             myHeaders.append("Content-Type", "mu");
             myHeaders.append("Authorization", `Bearer ${process.env.TOKEN}`);
             myHeaders.append("Cookie", "bcookie=\"v=2&06fb2c4a-b88d-4fcf-8de3-adb4b50e14bd\"; lissc=1");
@@ -94,7 +93,6 @@ var methods = {
 
             fetch(uploadUrl, requestOptions)
                 .then(response => {
-
                     return response.text()
                 })
                 .catch(error => console.log('error', error));
@@ -117,6 +115,7 @@ var methods = {
     createPost: function(upload) {
         var asset = upload.assetData.asset;
         var description = upload.description;
+        console.log(asset, description, "DESC")
         var data = fetch('https://api.linkedin.com/v2/ugcPosts', {
                 method: 'POST',
                 headers: {
