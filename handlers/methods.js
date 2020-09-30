@@ -78,9 +78,9 @@ var methods = {
                             console.log(`Image conversion error ${err}`)
                         }
                     });
-
+console.log("1")
                     const readFile = await fs.promises.readFile('./public/images/image.png')
-                    
+console.log("2")  
                     headers.append("Content-Type","mu")
                     headers.append("Authorization",`Bearer ${process.env.TOKEN}`)
                     headers.append("Cookie", "bcookie=\"v=2&06fb2c4a-b88d-4fcf-8de3-adb4b50e14bd\"; lissc=1");
