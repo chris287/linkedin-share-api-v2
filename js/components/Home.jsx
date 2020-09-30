@@ -32,72 +32,164 @@ export default class Home extends React.Component{
             alertMessage: ''
         }
     }
-    convertWinnerTableToImage = () =>{
+    // convertWinnerTableToImage = () =>{
+    //     var self = this;
+    //     var b64Img = "";
+    //     var node = document.getElementById('winnerTable');
+    //         domtoimage.toPng(node)
+    //         .then(function (dataUrl) {
+    //             b64Img = dataUrl;
+    //             var img = new Image();
+    //             img.src = dataUrl;
+    //             return dataUrl;
+    //         })
+    //         .then(dataUrl=>{
+    //             // REGISTER IMAGE ASSET
+    //             fetch('https://lambdazen.roshal.xyz/tni/api',{
+    //                 method: 'POST',
+    //                 body: JSON.stringify({
+    //                     'key':'value'
+    //                 })
+    //             })
+    //             .then(registerResponse => {
+    //                 return registerResponse.json();
+    //             })
+    //             .then(registerData =>{
+    //                 console.log(registerData,"register Data")
+    //                 return {'uploadUrl':registerData.value.uploadMechanism["com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"].uploadUrl,'asset':registerData.value.asset}
+    //             })
+    //             .then(uploadData =>{
+    //                 fetch('https://lambdazen.roshal.xyz/tni/api',{
+    //                     method: 'PUT',
+    //                     headers: {
+    //                         'Content-Type': 'application/json'
+    //                     },
+    //                     body: JSON.stringify({
+    //                         'url':dataUrl,
+    //                         'uploadData':uploadData
+    //                     })
+    //                 })
+    //                 .then(uploadDataResponse => {
+    //                     return uploadDataResponse.json()
+    //                 })
+    //                 .then(imageLink => {
+    //                     if(imageLink){
+    //                         fetch('https://lambdazen.roshal.xyz/upload',{
+    //                             method:'POST',
+    //                             headers: {
+    //                                 'Content-Type':'application/json'
+    //                             },
+    //                             body: JSON.stringify({
+    //                                 'assetData':uploadData,
+    //                                 'description': self.state.description
+    //                             })
+    //                         })
+    //                         .then(postResponse => {console.log(postResponse); return postResponse})
+    //                         .then(postFinalResponse => {
+    //                             self.setState({alertMessage:"Posted successfully! Please check account activity."});
+    //                             self.handleDialogOpen()
+    //                         })
+    //                         .catch(erro => console.log(erro))
+    //                     }
+    //                 })
+    //             })
+    //             .catch(error => {console.log(error)})
+    //         })
+    //         .catch(function (error) {
+    //             console.error('Image conversion error! ', error);
+    //         });
+    // }
+
+    convertWinnerTableToImage = () => {
         var self = this;
-        var b64Img = "";
         var node = document.getElementById('winnerTable');
-            domtoimage.toPng(node)
-            .then(function (dataUrl) {
-                b64Img = dataUrl;
-                var img = new Image();
-                img.src = dataUrl;
-                return dataUrl;
+        
+        var getNode = domtoimage.toPng(node)
+        .then(function(dataUri){
+            return dataUri;
+        })
+        .catch(error=>console.log("Dom to img",error))
+
+        var registerImage = getNode.then(function(imageData){
+            return fetch('https://lambdazen.roshal.xyz/tni/api',{
+                method: 'POST',
+                body: JSON.stringify({
+                    'key':'value'
+                })
             })
-            .then(dataUrl=>{
-                // REGISTER IMAGE ASSET
-                fetch('https://lambdazen.roshal.xyz/tni/api',{
-                    method: 'POST',
-                    body: JSON.stringify({
-                        'key':'value'
-                    })
-                })
-                .then(registerResponse => {
-                    return registerResponse.json();
-                })
-                .then(registerData =>{
-                    console.log(registerData,"register Data")
-                    return {'uploadUrl':registerData.value.uploadMechanism["com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"].uploadUrl,'asset':registerData.value.asset}
-                })
-                .then(uploadData =>{
-                    fetch('https://lambdazen.roshal.xyz/tni/api',{
-                        method: 'PUT',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({
-                            'url':dataUrl,
-                            'uploadData':uploadData
-                        })
-                    })
-                    .then(uploadDataResponse => {
-                        return uploadDataResponse.json()
-                    })
-                    .then(imageLink => {
-                        if(imageLink){
-                            fetch('https://lambdazen.roshal.xyz/upload',{
-                                method:'POST',
-                                headers: {
-                                    'Content-Type':'application/json'
-                                },
-                                body: JSON.stringify({
-                                    'assetData':uploadData,
-                                    'description': self.state.description
-                                })
-                            })
-                            .then(postResponse => {console.log(postResponse); return postResponse})
-                            .then(postFinalResponse => {
-                                self.setState({alertMessage:"Posted successfully! Please check account activity."});
-                                self.handleDialogOpen()
-                            })
-                            .catch(erro => console.log(erro))
-                        }
-                    })
-                })
-                .catch(error => {console.log(error)})
+            .then(function(registerData){
+                return registerData.json()
             })
-            .catch(function (error) {
-                console.error('Image conversion error! ', error);
-            });
+            .then(function(responseJson){
+                self.setState({asset: responseJson.value.asset})
+                return {
+                    'uploadUrl':responseJson.value.uploadMechanism["com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"].uploadUrl,
+                    'asset':responseJson.value.asset,
+                    'imageData':imageData
+                }
+            })
+            .catch(error=>console.log("Register Image",error))
+        });
+
+        var uploadImage = registerImage.then(function(registerResponse){
+            return fetch('https://lambdazen.roshal.xyz/tni/api',{
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(registerResponse)
+            })
+            .then(function(uploadImageResponse){
+                return uploadImageResponse.json()
+            })
+            .then(function(uploadImageJson){
+                if(uploadImageJson.size!=undefined){
+                    return {
+                        'asset':self.state.asset,
+                        'description':self.state.description
+                    } 
+                }else{
+                    return {
+                        'asset':false,
+                        'description':false
+                    }
+                }
+            })
+            .catch(error => console.log(`Upload image error: ${error}`))
+        })
+        .catch(error=>console.log(error))
+
+        var createPost = uploadImage.then(function(uploadedImageData){
+
+            return fetch('https://lambdazen.roshal.xyz/tni/api/post',{
+                method:'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({
+                    'assetData':self.state.asset,
+                    'description': uploadedImageData.description
+                })
+            })
+            .then(function(createPostResponse){
+                return createPostResponse.json();
+            })
+            .then(function(createdPostData){
+                return createdPostData
+            })
+            .catch(error => console.log(`Create post error: ${error}`))
+        })
+        .catch(error=>console.log(`Create post error: ${error}`))
+
+        createPost.then(function(finalResponse){
+            if(finalResponse){
+                self.setState({alertMessage:'Posted successfully! Please check your timeline.'})
+                self.handleDialogOpen();
+            }
+        })
+        .catch(error=> console.log(`Post creation error: ${error}`))
+
+        
     }
     
     handleChange = (event) =>{
