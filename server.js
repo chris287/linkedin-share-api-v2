@@ -29,14 +29,13 @@ app.use(function(req, res, next) {
 
 // Import Router
 var router = require('./routes/mainRoute')
-var authorizeRouter = require('./routes/authorize')
 
 app.use('/tni/api', router)
 
 app.get('/tni', (req, res) => {
     res.sendFile(path.join(__dirname, './public/index.html'))
 })
-app.use('/tni/api/authorize', authorizeRouter)
+
 app.listen(3000, () =>
     console.log("listening on port 3000:")
 );

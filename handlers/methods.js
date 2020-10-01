@@ -89,12 +89,13 @@ var methods = {
                 
     },
 
-    authorizeUser: function() {
-        return fetch('https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=868d8qeasvc0rr&redirect_uri=https%3A%2F%2Flambdazen.roshal.xyz%2Ftni&state=fooooobar&scope=r_emailaddress%20r_liteprofile%20w_member_social')
+    authorizeUser: function(auth) {
+        const code = auth.code;
+        console.log(auth)
+        return fetch(`https://www.linkedin.com/oauth/v2/accessToken?grant_type=authorization_code&code=${code}&redirect_uri=https%3A%2F%2Flambdazen.roshal.xyz%2Ftni&client_id=78a3hn44w5hsjt&client_secret=J4OHOiVV3Kg33mHZ`)
             .then(response => { return response.json() })
             .then(res => { return res })
             .catch(er => console.log(er))
-        
     },
 
     createPost: function(upload) {

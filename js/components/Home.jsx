@@ -39,7 +39,15 @@ export default class Home extends React.Component{
         if(params){
             const code = params.get('code');
 
-        fetch(`https://www.linkedin.com/oauth/v2/accessToken?grant_type=authorization_code&code=${code}&redirect_uri=https%3A%2F%2Flambdazen.roshal.xyz%2Ftni&client_id=78a3hn44w5hsjt&client_secret=J4OHOiVV3Kg33mHZ`)
+        fetch('https://lambdazen.roshal.xyz/tni/api/auth',{
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'code':code
+            })
+        })
         .then(authResponse=>authResponse.json())
         .then(authJson=>{console.log(authJson)})
         .catch(error=>console.log(error))
