@@ -24,16 +24,18 @@ var methods = {
         },
 
         registerUpload: function(upload) {
+            const authKey = upload.authKey;
+            const personUri = upload.personUri;
             return fetch('https://api.linkedin.com/v2/assets?action=registerUpload', {
                     'method': 'POST',
                     "headers": {
-                        'Authorization': `Bearer ${process.env.TOKEN}`,
+                        'Authorization': `Bearer ${authKey}`,
                         'Content-Type': 'application/json',
                         'Connection': 'Keep-Alive'
                     },
                     body: JSON.stringify({
                         "registerUploadRequest": {
-                            "owner": "urn:li:person:Jy5cvnv0Wz",
+                            "owner": `urn:li:person:${personUri}`,
                             "recipes": [
                                 "urn:li:digitalmediaRecipe:feedshare-image"
                             ],
@@ -62,13 +64,14 @@ var methods = {
         uploadImage: async function(upload) {
                 var uploadUrl = upload.uploadUrl;
                 var imageData = upload.imageData;
+                const authKey = upload.authKey;
 
                 try {
                     var headers = new Headers();
 
                     const img = Buffer.from(imageData.split(";base64,").pop(),"base64")
                     headers.append("Content-Type","mu")
-                    headers.append("Authorization",`Bearer ${process.env.TOKEN}`);
+                    headers.append("Authorization",`Bearer ${authKey}`);
                     headers.append("Cookie", "bcookie=\"v=2&06fb2c4a-b88d-4fcf-8de3-adb4b50e14bd\"; lissc=1");
                     
                     var requestOptions = {
@@ -113,16 +116,19 @@ var methods = {
 
     createPost: function(upload) {
         
-        var asset = upload.assetData;
-        var description = upload.description;
+        const asset = upload.assetData;
+        const description = upload.description;
+        const authKey = upload.authKey;
+        const personUri = upload.personUri;
+
         return fetch('https://api.linkedin.com/v2/ugcPosts', {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${process.env.TOKEN }`,
+                    'Authorization': `Bearer ${authKey}`,
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    "author": "urn:li:person:Jy5cvnv0Wz",
+                    "author": `urn:li:person:${personUri}`,
                     "lifecycleState": "PUBLISHED",
                     "specificContent": {
                         "com.linkedin.ugc.ShareContent": {

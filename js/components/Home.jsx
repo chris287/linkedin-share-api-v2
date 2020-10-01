@@ -86,7 +86,8 @@ export default class Home extends React.Component{
             return fetch('https://lambdazen.roshal.xyz/tni/api',{
                 method: 'POST',
                 body: JSON.stringify({
-                    'key':'value'
+                    'authKey':self.state.token,
+                    'personUri': self.state.userId
                 })
             })
             .then(function(registerData){
@@ -97,7 +98,8 @@ export default class Home extends React.Component{
                 return {
                     'uploadUrl':responseJson.value.uploadMechanism["com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"].uploadUrl,
                     'asset':responseJson.value.asset,
-                    'imageData':imageData
+                    'imageData':imageData,
+                    'authKey': self.state.token
                 }
             })
             .catch(error=>console.log("Register Image",error))
@@ -118,12 +120,14 @@ export default class Home extends React.Component{
                 if(uploadImageJson.size!=undefined){
                     return {
                         'asset':self.state.asset,
-                        'description':self.state.description
+                        'description':self.state.description,
+                        'authKey':self.state.token
                     } 
                 }else{
                     return {
                         'asset':false,
-                        'description':false
+                        'description':false,
+                        'authKey': self.state.token
                     }
                 }
             })
@@ -140,7 +144,9 @@ export default class Home extends React.Component{
                 },
                 body: JSON.stringify({
                     'assetData':self.state.asset,
-                    'description': uploadedImageData.description
+                    'description': uploadedImageData.description,
+                    'authKey': self.state.token,
+                    'personUri': self.state.userId
                 })
             })
             .then(function(createPostResponse){
