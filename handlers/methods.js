@@ -1,14 +1,12 @@
 require('isomorphic-fetch')
 require('dotenv').config()
-const { LinkedIn } = require('@material-ui/icons');
-const { response } = require('express');
 
 
 // docs - https://docs.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/share-on-linkedin#create-an-image-share
 
 var methods = {
         getUploadStatus: function(upload) {
-            var data = fetch(`https://api.linkedin.com/v2/assets/${upload.asset}`, {
+            return fetch(`https://api.linkedin.com/v2/assets/${upload.asset}`, {
                     "headers": {
                         'Authorization': `Bearer ${process.env.TOKEN}`
                     }
@@ -23,8 +21,6 @@ var methods = {
                     return res;
                 })
                 .catch(err => console.log(err))
-            Promise.resolve(data);
-            return data;
         },
 
         registerUpload: function(upload) {

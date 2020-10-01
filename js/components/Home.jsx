@@ -53,7 +53,6 @@ export default class Home extends React.Component{
         
         var getNode = domtoimage.toPng(node) //Convert a dom element to PNG
         .then(function(dataUri){
-            console.log(dataUri)
             return dataUri;
         })
         .catch(error=>console.log("Dom to img",error))
