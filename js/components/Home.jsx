@@ -59,7 +59,7 @@ export default class Home extends React.Component{
         .catch(error=>console.log("Dom to img",error))
 
         var registerImage = getNode.then(function(imageData){ //register an asset on linkedin 
-            return fetch('http://localhost:3000/tni/api',{
+            return fetch('https://lambdazen.roshal.xyz/tni/api',{
                 method: 'POST',
                 body: JSON.stringify({
                     'key':'value'
@@ -80,7 +80,7 @@ export default class Home extends React.Component{
         });
 
         var uploadImage = registerImage.then(function(registerResponse){ //Upload an image 
-            return fetch('http://localhost:3000/tni/api',{
+            return fetch('https://lambdazen.roshal.xyz/tni/api',{
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
@@ -109,7 +109,7 @@ export default class Home extends React.Component{
 
         var createPost = uploadImage.then(function(uploadedImageData){ //Create a post with uploaded image
 
-            return fetch('http://localhost:3000/tni/api/post',{
+            return fetch('https://lambdazen.roshal.xyz/tni/api/post',{
                 method:'POST',
                 headers: {
                     'Content-Type':'application/json'
@@ -175,7 +175,7 @@ export default class Home extends React.Component{
                                     <div
                                         className="honourCategory"
                                         >
-                                            <Laurel imgUrl={"http://localhost:3000/images/1.jpg"}/>
+                                            <Laurel imgUrl={"https://lambdazen.roshal.xyz/images/1.jpg"}/>
                                             <div
                                                 className="honourCategoryInfo"
                                             >
@@ -189,7 +189,7 @@ export default class Home extends React.Component{
                                     <div
                                         className="honourCategory"
                                     >
-                                            <Laurel imgUrl={"http://localhost:3000/images/2.jpg"}/>
+                                            <Laurel imgUrl={"https://lambdazen.roshal.xyz/images/2.jpg"}/>
                                             <div
                                                className="honourCategoryInfo"
                                             >
@@ -204,7 +204,7 @@ export default class Home extends React.Component{
                                         className="honourCategory"
                                         style={{borderRight:"none"}}
                                         >
-                                            <Laurel imgUrl={"http://localhost:3000/images/1.jpg"}/>
+                                            <Laurel imgUrl={"https://lambdazen.roshal.xyz/images/1.jpg"}/>
                                             <div
                                                 className="honourCategoryInfo"
                                             >
