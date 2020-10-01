@@ -107,7 +107,7 @@ var methods = {
             }
         })
         .then(userData => userData.json())
-        .then(userJson => userJson.id)
+        .then(userJson => userJson)
         .catch(error => console.log(error))
     },
 

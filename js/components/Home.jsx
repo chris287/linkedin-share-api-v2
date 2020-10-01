@@ -67,7 +67,7 @@ export default class Home extends React.Component{
                     'authKey': authData.access_token
                 })
             })
-            .then(userResponse => userResponse.json())
+            .then(userResponse => {userResponse.json()})
             .then(userJson => console.log(userJson))
         })
     }
