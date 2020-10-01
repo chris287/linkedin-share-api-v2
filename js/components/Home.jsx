@@ -32,85 +32,32 @@ export default class Home extends React.Component{
             alertMessage: ''
         }
     }
-    // convertWinnerTableToImage = () =>{
-    //     var self = this;
-    //     var b64Img = "";
-    //     var node = document.getElementById('winnerTable');
-    //         domtoimage.toPng(node)
-    //         .then(function (dataUrl) {
-    //             b64Img = dataUrl;
-    //             var img = new Image();
-    //             img.src = dataUrl;
-    //             return dataUrl;
-    //         })
-    //         .then(dataUrl=>{
-    //             // REGISTER IMAGE ASSET
-    //             fetch('https://lambdazen.roshal.xyz/tni/api',{
-    //                 method: 'POST',
-    //                 body: JSON.stringify({
-    //                     'key':'value'
-    //                 })
-    //             })
-    //             .then(registerResponse => {
-    //                 return registerResponse.json();
-    //             })
-    //             .then(registerData =>{
-    //                 console.log(registerData,"register Data")
-    //                 return {'uploadUrl':registerData.value.uploadMechanism["com.linkedin.digitalmedia.uploading.MediaUploadHttpRequest"].uploadUrl,'asset':registerData.value.asset}
-    //             })
-    //             .then(uploadData =>{
-    //                 fetch('https://lambdazen.roshal.xyz/tni/api',{
-    //                     method: 'PUT',
-    //                     headers: {
-    //                         'Content-Type': 'application/json'
-    //                     },
-    //                     body: JSON.stringify({
-    //                         'url':dataUrl,
-    //                         'uploadData':uploadData
-    //                     })
-    //                 })
-    //                 .then(uploadDataResponse => {
-    //                     return uploadDataResponse.json()
-    //                 })
-    //                 .then(imageLink => {
-    //                     if(imageLink){
-    //                         fetch('https://lambdazen.roshal.xyz/upload',{
-    //                             method:'POST',
-    //                             headers: {
-    //                                 'Content-Type':'application/json'
-    //                             },
-    //                             body: JSON.stringify({
-    //                                 'assetData':uploadData,
-    //                                 'description': self.state.description
-    //                             })
-    //                         })
-    //                         .then(postResponse => {console.log(postResponse); return postResponse})
-    //                         .then(postFinalResponse => {
-    //                             self.setState({alertMessage:"Posted successfully! Please check account activity."});
-    //                             self.handleDialogOpen()
-    //                         })
-    //                         .catch(erro => console.log(erro))
-    //                     }
-    //                 })
-    //             })
-    //             .catch(error => {console.log(error)})
-    //         })
-    //         .catch(function (error) {
-    //             console.error('Image conversion error! ', error);
-    //         });
-    // }
+
+    componentDidMount(){
+        const params = new URLSearchParams(window.location.search);
+        if(params){
+            const code = params.get('code');
+
+        fetch(`https://www.linkedin.com/oauth/v2/accessToken?grant_type=authorization_code&code=${code}&redirect_uri=https%3A%2F%2Flambdazen.roshal.xyz%2Ftni&client_id=78a3hn44w5hsjt&client_secret=J4OHOiVV3Kg33mHZ`)
+        .then(authResponse=>authResponse.json())
+        .then(authJson=>{console.log(authJson)})
+        .catch(error=>console.log(error))
+        }
+        
+    }
 
     convertWinnerTableToImage = () => {
         var self = this;
         var node = document.getElementById('winnerTable');
         
-        var getNode = domtoimage.toPng(node)
+        var getNode = domtoimage.toPng(node) //Convert a dom element to PNG
         .then(function(dataUri){
+            console.log(dataUri)
             return dataUri;
         })
         .catch(error=>console.log("Dom to img",error))
 
-        var registerImage = getNode.then(function(imageData){
+        var registerImage = getNode.then(function(imageData){ //register an asset on linkedin 
             return fetch('https://lambdazen.roshal.xyz/tni/api',{
                 method: 'POST',
                 body: JSON.stringify({
@@ -131,7 +78,7 @@ export default class Home extends React.Component{
             .catch(error=>console.log("Register Image",error))
         });
 
-        var uploadImage = registerImage.then(function(registerResponse){
+        var uploadImage = registerImage.then(function(registerResponse){ //Upload an image 
             return fetch('https://lambdazen.roshal.xyz/tni/api',{
                 method: 'PUT',
                 headers: {
@@ -159,7 +106,7 @@ export default class Home extends React.Component{
         })
         .catch(error=>console.log(error))
 
-        var createPost = uploadImage.then(function(uploadedImageData){
+        var createPost = uploadImage.then(function(uploadedImageData){ //Create a post with uploaded image
 
             return fetch('https://lambdazen.roshal.xyz/tni/api/post',{
                 method:'POST',
@@ -227,7 +174,7 @@ export default class Home extends React.Component{
                                     <div
                                         className="honourCategory"
                                         >
-                                            <Laurel imgUrl={"https://thumbs.dreamstime.com/b/avatar-girl-short-hair-avatar-face-single-icon-cartoon-style-rater-bitmap-symbol-stock-illustration-web-91848067.jpg"}/>
+                                            <Laurel imgUrl={"http://thumbs.dreamstime.com/b/avatar-girl-short-hair-avatar-face-single-icon-cartoon-style-rater-bitmap-symbol-stock-illustration-web-91848067.jpg"}/>
                                             <div
                                                 className="honourCategoryInfo"
                                             >
@@ -241,7 +188,7 @@ export default class Home extends React.Component{
                                     <div
                                         className="honourCategory"
                                     >
-                                            <Laurel imgUrl={"https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcQuEoremt7NhDw5dXxwVT97Kk6lLBdk21r6KQ&usqp=CAU"}/>
+                                            <Laurel imgUrl={"http://thumbs.dreamstime.com/b/avatar-girl-short-hair-avatar-face-single-icon-cartoon-style-rater-bitmap-symbol-stock-illustration-web-91848067.jpg"}/>
                                             <div
                                                className="honourCategoryInfo"
                                             >
@@ -256,7 +203,7 @@ export default class Home extends React.Component{
                                         className="honourCategory"
                                         style={{borderRight:"none"}}
                                         >
-                                            <Laurel imgUrl={"https://thumbs.dreamstime.com/b/young-man-avatar-character-male-face-portrait-cartoon-person-vector-illustration-adult-design-human-people-attractive-casual-guy-100786465.jpg"}/>
+                                            <Laurel imgUrl={"http://thumbs.dreamstime.com/b/young-man-avatar-character-male-face-portrait-cartoon-person-vector-illustration-adult-design-human-people-attractive-casual-guy-100786465.jpg"}/>
                                             <div
                                                 className="honourCategoryInfo"
                                             >

@@ -1,11 +1,14 @@
 require('isomorphic-fetch')
 require('dotenv').config()
+const { LinkedIn } = require('@material-ui/icons');
 const { response } = require('express');
 var fs = require('fs');
+var path = require('path');
+
+// docs - https://docs.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/share-on-linkedin#create-an-image-share
 
 var methods = {
         getUploadStatus: function(upload) {
-            console.log(upload.asset)
             var data = fetch(`https://api.linkedin.com/v2/assets/${upload.asset}`, {
                     "headers": {
                         'Authorization': `Bearer ${process.env.TOKEN}`
@@ -18,8 +21,6 @@ var methods = {
                     return response.json();
                 })
                 .then(res => {
-                    // data.push(res)
-                    // console.log(data,"Data")
                     return res;
                 })
                 .catch(err => console.log(err))
@@ -28,7 +29,7 @@ var methods = {
         },
 
         registerUpload: function(upload) {
-            var data = fetch('https://api.linkedin.com/v2/assets?action=registerUpload', {
+            return fetch('https://api.linkedin.com/v2/assets?action=registerUpload', {
                     'method': 'POST',
                     "headers": {
                         'Authorization': `Bearer ${process.env.TOKEN}`,
@@ -58,43 +59,38 @@ var methods = {
                     return response.json();
                 })
                 .then(res => {
-                    // data.push(res)
-                    // console.log(data,"Data")
                     return res;
                 })
                 .catch(err => console.log(err))
-            Promise.resolve(data);
-            return data;
         },
 
         uploadImage: async function(upload) {
                 var uploadUrl = upload.uploadUrl;
                 var imageData = upload.imageData;
+
                 try {
                     var headers = new Headers();
-                    fs.writeFile('/home/ubuntu/webpack-linkedin/public/images/image.png', imageData.split(';base64,').pop(), { encoding: 'base64' }, function(err) {
+                    fs.writeFile(path.join(__dirname,'../public/images/image.png'), imageData.split(';base64,').pop(), { encoding: 'base64' }, function(err) {
                         if (err) {
                             console.log(`Image conversion error ${err}`)
                         }
                     });
 
-                    const readFile = await fs.promises.readFile('/home/ubuntu/webpack-linkedin/public/images/image.png')
+                    const readFile = await fs.promises.readFile(path.join(__dirname,'../public/images/image.png'))
   
                     headers.append("Content-Type","mu")
                     headers.append("Authorization",`Bearer ${process.env.TOKEN}`);
-                    console.log("1")
                     headers.append("Cookie", "bcookie=\"v=2&06fb2c4a-b88d-4fcf-8de3-adb4b50e14bd\"; lissc=1");
-console.log(2)
+                    
                     var requestOptions = {
                         method: 'PUT',
                         headers: headers,
                         body: readFile,
                         redirect: 'follow'
                     };
-console.group(3)
+
                     return fetch(uploadUrl,requestOptions)
                     .then(function(uploadResponse){
-                        console.log(uploadResponse.size,uploadResponse.timeout,"Size and timeout")
                         return JSON.parse(`{"size":${uploadResponse.size},"timeout":${uploadResponse.timeout}}`)
                     })
                     .catch(error => console.log(`Image upload error fetch: ${error}`))
@@ -105,19 +101,18 @@ console.group(3)
     },
 
     authorizeUser: function() {
-        var data = fetch('https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=868d8qeasvc0rr&redirect_uri=https%3A%2F%2Flambdazen.roshal.xyz%2Ftni&state=fooooobar&scope=r_emailaddress%20r_liteprofile%20w_member_social')
+        return fetch('https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=868d8qeasvc0rr&redirect_uri=https%3A%2F%2Flambdazen.roshal.xyz%2Ftni&state=fooooobar&scope=r_emailaddress%20r_liteprofile%20w_member_social')
             .then(response => { return response.json() })
             .then(res => { return res })
             .catch(er => console.log(er))
-        Promise.resolve(data);
-        return data;
+        
     },
 
     createPost: function(upload) {
         
         var asset = upload.assetData;
         var description = upload.description;
-        var data = fetch('https://api.linkedin.com/v2/ugcPosts', {
+        return fetch('https://api.linkedin.com/v2/ugcPosts', {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${process.env.TOKEN }`,
@@ -154,10 +149,7 @@ console.group(3)
             })
             .then(responseId =>(responseId))
             .catch(er => console.log(er))
-
-        return Promise.resolve(data);
     }
-
 
 }
 module.exports = methods
