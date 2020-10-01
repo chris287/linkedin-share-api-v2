@@ -64,7 +64,7 @@ export default class Home extends React.Component{
                     'Content-Type':'application/json'
                 },
                 body: JSON.stringify({
-                    'authKey': authKey.access_token
+                    'authKey': authData.access_token
                 })
             })
             .then(userResponse => userResponse.json())
