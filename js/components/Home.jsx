@@ -17,6 +17,7 @@ import Laurel from './Laurel';
 import Header from './Header';
 import Menu from './Menu'
 
+var path = require('path')
 
 export default class Home extends React.Component{
     constructor(props){
@@ -174,7 +175,7 @@ export default class Home extends React.Component{
                                     <div
                                         className="honourCategory"
                                         >
-                                            <Laurel imgUrl={'../../public/images/1.jpg'}/>
+                                            <Laurel imgUrl={path.join(__dirname,'../../public/images/2.jpg')}/>
                                             <div
                                                 className="honourCategoryInfo"
                                             >
@@ -188,7 +189,7 @@ export default class Home extends React.Component{
                                     <div
                                         className="honourCategory"
                                     >
-                                            <Laurel imgUrl={'../../public/images/2.jpg'}/>
+                                            <Laurel imgUrl={path.join(__dirname,'../../public/images/1.jpg')}/>
                                             <div
                                                className="honourCategoryInfo"
                                             >
@@ -203,7 +204,7 @@ export default class Home extends React.Component{
                                         className="honourCategory"
                                         style={{borderRight:"none"}}
                                         >
-                                            <Laurel imgUrl={'../../public/images/1.jpg'}/>
+                                            <Laurel imgUrl={path.join(__dirname,'../../public/images/2.jpg')}/>
                                             <div
                                                 className="honourCategoryInfo"
                                             >
