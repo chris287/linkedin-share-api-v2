@@ -174,7 +174,7 @@ export default class Home extends React.Component{
                                     <div
                                         className="honourCategory"
                                         >
-                                            <Laurel imgUrl={"http://thumbs.dreamstime.com/b/avatar-girl-short-hair-avatar-face-single-icon-cartoon-style-rater-bitmap-symbol-stock-illustration-web-91848067.jpg"}/>
+                                            <Laurel imgUrl={'../../public/images/1.jpg'}/>
                                             <div
                                                 className="honourCategoryInfo"
                                             >
@@ -188,7 +188,7 @@ export default class Home extends React.Component{
                                     <div
                                         className="honourCategory"
                                     >
-                                            <Laurel imgUrl={"http://thumbs.dreamstime.com/b/avatar-girl-short-hair-avatar-face-single-icon-cartoon-style-rater-bitmap-symbol-stock-illustration-web-91848067.jpg"}/>
+                                            <Laurel imgUrl={'../../public/images/2.jpg'}/>
                                             <div
                                                className="honourCategoryInfo"
                                             >
@@ -203,7 +203,7 @@ export default class Home extends React.Component{
                                         className="honourCategory"
                                         style={{borderRight:"none"}}
                                         >
-                                            <Laurel imgUrl={"http://thumbs.dreamstime.com/b/young-man-avatar-character-male-face-portrait-cartoon-person-vector-illustration-adult-design-human-people-attractive-casual-guy-100786465.jpg"}/>
+                                            <Laurel imgUrl={'../../public/images/1.jpg'}/>
                                             <div
                                                 className="honourCategoryInfo"
                                             >
