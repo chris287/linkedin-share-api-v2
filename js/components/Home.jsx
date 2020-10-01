@@ -175,7 +175,7 @@ export default class Home extends React.Component{
                                     <div
                                         className="honourCategory"
                                         >
-                                            <Laurel imgUrl={path.join(__dirname,'../../public/images/2.jpg')}/>
+                                            <Laurel imgUrl={"https://lambdazen.roshal.xyz/images/1.jpg"}/>
                                             <div
                                                 className="honourCategoryInfo"
                                             >
@@ -189,7 +189,7 @@ export default class Home extends React.Component{
                                     <div
                                         className="honourCategory"
                                     >
-                                            <Laurel imgUrl={path.join(__dirname,'../../public/images/1.jpg')}/>
+                                            <Laurel imgUrl={"https://lambdazen.roshal.xyz/images/2.jpg"}/>
                                             <div
                                                className="honourCategoryInfo"
                                             >
@@ -204,7 +204,7 @@ export default class Home extends React.Component{
                                         className="honourCategory"
                                         style={{borderRight:"none"}}
                                         >
-                                            <Laurel imgUrl={path.join(__dirname,'../../public/images/2.jpg')}/>
+                                            <Laurel imgUrl={"https://lambdazen.roshal.xyz/images/1.jpg"}/>
                                             <div
                                                 className="honourCategoryInfo"
                                             >
