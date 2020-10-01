@@ -9,6 +9,7 @@ import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import TextField from '@material-ui/core/TextField';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import Snackbar from '@material-ui/core/Snackbar';
 import domtoimage from 'dom-to-image'
 
@@ -17,13 +18,12 @@ import Laurel from './Laurel';
 import Header from './Header';
 import Menu from './Menu'
 
-var path = require('path')
-
 export default class Home extends React.Component{
     constructor(props){
         super(props);
         this.state = {
             openDialog: false,
+            circularProgress: false,
             imageData: "",
             login: false,
             logInCred: "mocrosoftdev",
@@ -68,14 +68,14 @@ export default class Home extends React.Component{
                 })
             })
             .then(userResponse => {return userResponse.json()})
-            .then(userJson => {self.setState({userId: userJson.id});console.log(userJson.id)})
+            .then(userJson => {self.setState({userId: userJson.id})})
         })
     }
 
     convertWinnerTableToImage = () => {
         var self = this;
         var node = document.getElementById('winnerTable');
-        
+        self.setState({circularProgress: true})
         var getNode = domtoimage.toPng(node) //Convert a dom element to PNG
         .then(function(dataUri){
             return dataUri;
@@ -164,7 +164,7 @@ export default class Home extends React.Component{
 
         createPost.then(function(finalResponse){
             if(finalResponse){
-                self.setState({alertMessage:'Posted successfully! Please check your timeline.'})
+                self.setState({circularProgress:false, alertMessage:'Posted successfully! Please check your timeline.'})
                 self.handleDialogOpen();
             }
         })
@@ -277,6 +277,8 @@ export default class Home extends React.Component{
                                     </DialogActions>
                             </Dialog>:""
                         }
+                        {(this.state.circularProgress)?<CircularProgress />:""}
+
                         <div style={{width:"10%", position:"absolute", right:"10%", bottom:"0"}}>
                             <Button onClick={this.handleDialogOpen}><b style={{fontSize:"large"}}>Share &nbsp;&nbsp;</b><LinkedInIcon fontSize="large"/></Button>
                         </div>
