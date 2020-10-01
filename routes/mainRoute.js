@@ -25,6 +25,11 @@ router.post('/post', async function(req, resp) {
 router.post('/auth',async function(req,resp){
     let data = await methodObject.authorizeUser(req.body)
     resp.send(data)
-});
+})
+
+router.post('/user',async function(req,resp){
+    let data = await methodObject.getUserId(req.body)
+    resp.send(data)
+})
 
 module.exports = router;

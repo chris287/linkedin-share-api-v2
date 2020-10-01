@@ -30,16 +30,18 @@ export default class Home extends React.Component{
             uploadUrl: '',
             asset: '',
             description:'',
-            alertMessage: ''
+            alertMessage: '',
+            token:'',
+            userId:''
         }
     }
 
     componentDidMount(){
+        var self = this;
         const params = new URLSearchParams(window.location.search);
-        if(params){
-            const code = params.get('code');
+        const code = params.get('code');
 
-        fetch('https://lambdazen.roshal.xyz/tni/api/auth',{
+        const auth = fetch('https://lambdazen.roshal.xyz/tni/api/auth',{
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -49,10 +51,25 @@ export default class Home extends React.Component{
             })
         })
         .then(authResponse=>authResponse.json())
-        .then(authJson=>{console.log(authJson)})
+        .then(authJson=>{
+            self.setState({token: authJson.access_token})
+            return authJson;
+        })
         .catch(error=>console.log(error))
-        }
         
+        auth.then(authData =>{
+            fetch('https://lambdazen.roshal.xyz/tni/api/user',{
+                method:'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: JSON.stringify({
+                    'authKey': authKey.access_token
+                })
+            })
+            .then(userResponse => userResponse.json())
+            .then(userJson => console.log(userJson))
+        })
     }
 
     convertWinnerTableToImage = () => {

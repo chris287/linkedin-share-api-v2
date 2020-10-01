@@ -91,11 +91,24 @@ var methods = {
 
     authorizeUser: function(auth) {
         const code = auth.code;
-        console.log(auth)
         return fetch(`https://www.linkedin.com/oauth/v2/accessToken?grant_type=authorization_code&code=${code}&redirect_uri=https%3A%2F%2Flambdazen.roshal.xyz%2Ftni&client_id=78a3hn44w5hsjt&client_secret=J4OHOiVV3Kg33mHZ`)
             .then(response => { return response.json() })
             .then(res => { return res })
             .catch(er => console.log(er))
+    },
+
+    getUserId: function(auth){
+        const authKey = auth.authKey;
+        return fetch('https://api.linkedin.com/v2/me',{
+            method:"GET",
+            headers:{
+                'Authorization': `Bearer ${authKey}`,
+                'X-Restli-Protocol-Version':'2.0.0'
+            }
+        })
+        .then(userData => userData.json())
+        .then(userJson => userJson.id)
+        .catch(error => console.log(error))
     },
 
     createPost: function(upload) {
