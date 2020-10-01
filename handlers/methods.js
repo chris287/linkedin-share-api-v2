@@ -2,8 +2,7 @@ require('isomorphic-fetch')
 require('dotenv').config()
 const { LinkedIn } = require('@material-ui/icons');
 const { response } = require('express');
-var fs = require('fs');
-var path = require('path');
+
 
 // docs - https://docs.microsoft.com/en-us/linkedin/consumer/integrations/self-serve/share-on-linkedin#create-an-image-share
 
@@ -70,14 +69,8 @@ var methods = {
 
                 try {
                     var headers = new Headers();
-                    fs.writeFile(path.join(__dirname,'../public/images/image.png'), imageData.split(';base64,').pop(), { encoding: 'base64' }, function(err) {
-                        if (err) {
-                            console.log(`Image conversion error ${err}`)
-                        }
-                    });
 
-                    const readFile = await fs.promises.readFile(path.join(__dirname,'../public/images/image.png'))
-  
+                    const img = Buffer.from(imageData.split(";base64,").pop(),"base64")
                     headers.append("Content-Type","mu")
                     headers.append("Authorization",`Bearer ${process.env.TOKEN}`);
                     headers.append("Cookie", "bcookie=\"v=2&06fb2c4a-b88d-4fcf-8de3-adb4b50e14bd\"; lissc=1");
@@ -85,7 +78,7 @@ var methods = {
                     var requestOptions = {
                         method: 'PUT',
                         headers: headers,
-                        body: readFile,
+                        body: img,
                         redirect: 'follow'
                     };
 
