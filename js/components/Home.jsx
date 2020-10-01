@@ -85,6 +85,9 @@ export default class Home extends React.Component{
         var registerImage = getNode.then(function(imageData){ //register an asset on linkedin 
             return fetch('https://lambdazen.roshal.xyz/tni/api',{
                 method: 'POST',
+                headers:{
+                    'Content-Type':'application/json'
+                },
                 body: JSON.stringify({
                     'authKey':self.state.token,
                     'personUri': self.state.userId

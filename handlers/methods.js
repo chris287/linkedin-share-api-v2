@@ -26,7 +26,7 @@ var methods = {
         registerUpload: function(upload) {
             const authKey = upload.authKey;
             const personUri = upload.personUri;
-            console.log(authKey,personUri,"Register")
+            console.log(authKey,personUri,"Register",upload)
             return fetch('https://api.linkedin.com/v2/assets?action=registerUpload', {
                     'method': 'POST',
                     "headers": {
