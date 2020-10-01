@@ -26,6 +26,7 @@ var methods = {
         registerUpload: function(upload) {
             const authKey = upload.authKey;
             const personUri = upload.personUri;
+            console.log(authKey,personUri,"Register")
             return fetch('https://api.linkedin.com/v2/assets?action=registerUpload', {
                     'method': 'POST',
                     "headers": {
@@ -65,7 +66,7 @@ var methods = {
                 var uploadUrl = upload.uploadUrl;
                 var imageData = upload.imageData;
                 const authKey = upload.authKey;
-
+                console.log(authKey,"Upload")
                 try {
                     var headers = new Headers();
 
