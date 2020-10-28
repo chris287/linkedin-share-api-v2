@@ -17,6 +17,7 @@ import SideBar from './SideBar';
 import Laurel from './Laurel';
 import Header from './Header';
 import Menu from './Menu'
+import WinnerImage from './WinnerImage'
 
 export default class Home extends React.Component{
     constructor(props){
@@ -74,7 +75,7 @@ export default class Home extends React.Component{
 
     convertWinnerTableToImage = () => {
         var self = this;
-        var node = document.getElementById('winnerTable');
+        var node = document.getElementById('winnerImage');
         self.setState({circularProgress: true})
         var getNode = domtoimage.toPng(node) //Convert a dom element to PNG
         .then(function(dataUri){
@@ -251,9 +252,10 @@ export default class Home extends React.Component{
                                 </div>
                             </div>
                         {(this.state.openDialog)?
-                            <Dialog open={this.state.openDialog} fullWidth={true}>
-                                <DialogTitle>Share Winner Table</DialogTitle>
+                            <Dialog open={this.state.openDialog} fullWidth={true} maxWidth={"lg"}>
+                                <DialogTitle>Share Winner Tabl</DialogTitle>
                                     <DialogContent>
+                                        <WinnerImage/>
                                         <DialogContentText>
                                             Enter the description below.
                                         </DialogContentText>
@@ -292,3 +294,4 @@ export default class Home extends React.Component{
         )
     }
 }
+
