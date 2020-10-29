@@ -5,12 +5,16 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogActions from '@material-ui/core/DialogActions';
 import Button from '@material-ui/core/Button';
-import LinkedInIcon from '@material-ui/icons/LinkedIn';
 import TextField from '@material-ui/core/TextField';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Dialog from '@material-ui/core/Dialog';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import Snackbar from '@material-ui/core/Snackbar';
+import IconButton from '@material-ui/core/IconButton';
+
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import CloseOutlinedIcon from '@material-ui/icons/CloseOutlined';
+
 import domtoimage from 'dom-to-image'
 
 import SideBar from './SideBar';
@@ -253,7 +257,12 @@ export default class Home extends React.Component{
                             </div>
                         {(this.state.openDialog)?
                             <Dialog open={this.state.openDialog} fullWidth={true} maxWidth={"lg"}>
-                                <DialogTitle>Share Winner Tabl</DialogTitle>
+                                <div className="closeIcon">
+                                    <IconButton aria-label="Cancel Icon" onClick={this.handleDialogOpen}>
+                                        <CloseOutlinedIcon />
+                                    </IconButton>
+                                </div>
+                                <DialogTitle>Share Winner Table</DialogTitle>
                                     <DialogContent>
                                         <WinnerImage/>
                                         <DialogContentText>
@@ -270,16 +279,14 @@ export default class Home extends React.Component{
                                         />
                                     </DialogContent>
                                     <DialogActions>
-                                    <Button onClick={this.handleDialogOpen} color="primary" >
-                                        Cancel
-                                    </Button>
                                     <Button onClick={this.convertWinnerTableToImage} color="primary" disabled={this.state.description===""}>
                                         Post
                                     </Button>
                                     </DialogActions>
+                                    {(this.state.circularProgress)?<div className="progressBar"><CircularProgress style={{position: "absolute"}}/></div>:""}
                             </Dialog>:""
                         }
-                        {(this.state.circularProgress)?<CircularProgress />:""}
+                        
 
                         <div style={{width:"10%", position:"absolute", right:"10%", bottom:"0"}}>
                             <Button onClick={this.handleDialogOpen}><b style={{fontSize:"large"}}>Share &nbsp;&nbsp;</b><LinkedInIcon fontSize="large"/></Button>
