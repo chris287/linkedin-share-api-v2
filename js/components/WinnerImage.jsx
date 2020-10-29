@@ -1,11 +1,24 @@
 import React from 'react'
 
 export default class WinnerImage extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            imageUrl: ""
+        }
+    }
+    
+    componentDidMount(){
+        this.setState({imageUrl: "https://s.conceptjs.com/tni/LinkedInTemplate.png"})
+    }
+
     render(){
+        const {imageUrl} = this.state;
+
         const players = [{name: "Jerry", img: "https://lambdazen.roshal.xyz/images/1.jpg"}, {name: "Jane", img:"https://lambdazen.roshal.xyz/images/2.jpg"}, {name: "Jack", img:"https://lambdazen.roshal.xyz/images/1.jpg"}]
         return(
-            <div className="winnerImage">
-              <img src="https://s.conceptjs.com/tni/LinkedInTemplate.png" alt="Linkedin template"/>
+            <div className="winnerImage" id="winnerImage">
+              <img src={imageUrl} alt="Linkedin template"/>
               <div className="winnerImageProfileContainer">
                 {players.map(value=>{
                     return(

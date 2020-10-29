@@ -83,6 +83,7 @@ export default class Home extends React.Component{
         self.setState({circularProgress: true})
         var getNode = domtoimage.toPng(node) //Convert a dom element to PNG
         .then(function(dataUri){
+            console.log(dataUri, "Data URI")
             return dataUri;
         })
         .catch(error=>console.log("Dom to img",error))
