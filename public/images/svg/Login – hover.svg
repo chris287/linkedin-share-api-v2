@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="342" height="41" viewBox="0 0 342 41">
+  <defs>
+    <clipPath id="clip-Login_hover">
+      <rect width="342" height="41"/>
+    </clipPath>
+  </defs>
+  <g id="Login_hover" data-name="Login – hover" clip-path="url(#clip-Login_hover)">
+    <g id="Group_2280" data-name="Group 2280" transform="translate(-539 -1281)">
+      <rect id="Rectangle_13" data-name="Rectangle 13" width="334" height="30" rx="5" transform="translate(543 1287)" fill="#e0f1fa"/>
+      <text id="Login" transform="translate(692 1307)" fill="#9fb7be" font-size="14" font-family="Poppins-Regular, Poppins"><tspan x="0" y="0">Login</tspan></text>
+    </g>
+  </g>
+</svg>

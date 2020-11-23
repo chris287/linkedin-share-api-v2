@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="20" height="22" viewBox="0 0 20 22">
+  <defs>
+    <clipPath id="clip-Delete">
+      <rect width="20" height="22"/>
+    </clipPath>
+  </defs>
+  <g id="Delete" clip-path="url(#clip-Delete)">
+    <path id="bin2" d="M4.381,19.046h11.9l1.19-13.094H3.19ZM12.713,2.381V0H7.952V2.381H2V5.952l1.19-1.19H17.475l1.19,1.19V2.381Zm-1.19,0H9.142V1.19h2.381Z" transform="translate(-0.473 1.316)" fill="#f20c0c"/>
+  </g>
+</svg>
