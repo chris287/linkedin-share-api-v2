@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="23" viewBox="0 0 24 23">
+  <defs>
+    <clipPath id="clip-Sort">
+      <rect width="24" height="23"/>
+    </clipPath>
+  </defs>
+  <g id="Sort" clip-path="url(#clip-Sort)">
+    <g id="sort-2" data-name="sort" transform="translate(-38.768 0.53)">
+      <g id="Group_2312" data-name="Group 2312" transform="translate(42.667)">
+        <g id="Group_2311" data-name="Group 2311" transform="translate(0)">
+          <path id="Path_1399" data-name="Path 1399" d="M48.546,0,42.667,5.865h4.41v7.593h2.94V5.865h4.41Z" transform="translate(-42.667)" fill="#717185"/>
+          <path id="Path_1400" data-name="Path 1400" d="M178.016,159.926v-7.593h-2.94v7.593h-4.41l5.879,5.865,5.879-5.865Z" transform="translate(-164.559 -143.851)" fill="#717185"/>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>
