@@ -1,5 +1,5 @@
 # linkedin-share-api-v2
-Nodejs app to post images with text description and URLs on authenticated users timeline. It has complete flow from obtaining an access token to creating a post on linkedin.
+Nodejs app to post images with text description and URLs on authenticated users timeline. It has complete flow from obtaining an access token to creating a post on linkedin. It uses DOM element which is converted to an image as an asset to share.
 
 ## Setup and execution
 * Clone this repository and install the packages from root folder using ```npm i```
